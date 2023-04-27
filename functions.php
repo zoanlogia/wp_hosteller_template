@@ -1,11 +1,38 @@
 <?php
 
-// add dynamic title tag support
-function add_title_tag(){
-    add_theme_support('title-tag');
+// add classes to menu
+function add_classes_on_li($classes) {
+    $classes[] = 'header_nav-list_item';
+    return $classes;
+};
+add_filter('nav_menu_css_class','add_classes_on_li',1,3);
+
+function add_classes_on_a($classes) {
+    $classes[] = 'nav-item';
+    return $classes;
 };
 
-add_action('after_setup_theme', 'add_title_tag');
+add_filter('nav_menu_css_class','add_classes_on_a',1,3);
+
+
+// add dynamic title tag support
+function hosteller_theme_support(){
+    add_theme_support('title-tag');
+    add_theme_support('custom-logo');
+};
+
+add_action('after_setup_theme', 'hosteller_theme_support');
+
+// add_menus
+function add_menus(){
+    $location = array(
+        'primary' => "Desktop Primary right Sidebar",
+        'footer' => "Footer Menu Items",
+    );
+    register_nav_menus($location);
+}
+
+add_action('init', 'add_menus');
 
 // add stylesheets
 function add_css(){
